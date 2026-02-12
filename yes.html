@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>yes</title>
+<style>
+ 
+
+    /* Bouton liszt */
+    #playPauseBtn {
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      
+      padding: 12px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #8f031b;
+      color: #fff8f8;
+      
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background-color 0.2s;
+    font-family: 'Tempting', cursive, serif;
+    }
+     
+  
+  #playPauseBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  #playPauseBtn:active {
+    transform: scale(1.05);
+  }
+
+    #playPauseBtn:hover {
+      background: #b3042a;
+    }
+   #heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;           
+}
+
+.heart {
+    position: absolute;
+    top: -50px;
+    color: rgb(252, 204, 238);
+    font-size: 24px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0%   { transform: translateY(0); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@font-face {
+    font-family: 'Tempting';
+    src: url('tempting/Tempting - PERSONAL USE ONLY.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Valentime';
+    src: url('Valentime.otf') format('opentype');
+}
+
+/* Bouton 67 */
+.show-textarea-btn {
+    position: absolute;           
+    top: 60%;                     
+    left: 50%;                    
+    transform: translate(-50%, -50%); 
+    padding: 12px 20px;
+    background-color: #8f031b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background-color 0.2s;
+    font-family: 'Tempting', cursive, serif;
+}
+
+.show-textarea-btn:hover {
+    background-color: #b3042a;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Rectangle draggable non modifiable */
+#my-textarea {
+    display: none;
+    position: absolute;
+    top: 60%;          
+    left: 35%;
+    transform: translateX(-50%);
+    width: 300px;    
+    height: 400px;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Tempting', cursive, serif;
+    border-radius: 10px;
+    border: 7px solid #8f031b;
+    background-color: #ffdcec;
+    color: #333333;
+    resize: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    cursor: grab;
+    z-index: 1000;
+}
+
+/* Texte principal */
+.mon-texte {
+    font-family: 'Tempting', cursive, serif;
+    color: #290316;
+    font-size: 36px;
+    font-weight: bold;
+    position: absolute;
+    top: 370px;
+    left: 720px;
+}
+
+/* Bouton retour */
+.back-button {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    padding: 12px 20px;
+    background-color: #8f031b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background-color 0.2s;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background-color: #b3042a;
+    transform: scale(1.05);
+}
+
+/* Bannière */
+#banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #52012e;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Tempting', cursive;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+/* Contenu et footer */
+#content {
+    margin-top: 60px;
+    margin-bottom: 50px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #52012e;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Tempting', cursive, serif;
+    font-size: 18px;
+}
+
+/* la page */
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Tempting', cursive, serif;
+    font-size: 36px;
+    padding: 40px;
+    color: #f7cae2;
+    background-color: rgb(253, 227, 250);
+}
+
+/* Images tapis  */
+.image {
+    max-width: 400px;
+    display: block;
+    margin: 20px auto;
+    margin-top: 200px;
+}
+
+.bottom-left-gif {
+    position: fixed;
+    bottom: -40px;
+    left: 0;
+    width: 300px;
+    height: auto;
+    z-index: 1;
+    transform: rotate(45deg);
+}
+</style>
+</head>
+<body>
+    <!-- liszt -->
+  <audio id="audio">
+    <source src="liebestaeume.mp3" type="audio/mpeg">
+    
+  </audio>
+
+<a href="billgats.html" class="back-button">⬅</a>
+<p class="mon-texte">6 or 7 reasons why i love you ᯓᡣ𐭩</p>
+
+<!-- Bouton 6 0r 7 reasons  -->
+<button class="show-textarea-btn" onclick="toggleTextarea()">6 or 7 reasons</button>
+
+<!-- texte-->
+<textarea id="my-textarea" readonly>
+      Je t’aime parce que :
+-1- t’es mon petit génie.
+
+-2- t’es le plus beau.
+
+-3- le meilleur dans absolument tout.
+
+-4- t’es super gentil.
+
+-5- j’adore ta personnalité.
+
+-6- t’es drole.
+
+-7- t’es trop chou ♥︎.
+
+-8- t'as beaucoup trop d'aura >⏝<.
+
+-9- 9bayli.
+
+-11- t'as de la parole.
+
+-12- j’adore tes lunettes.
+
+-13- t'es mature.
+
+-14- nonchalant.
+
+-15- j’adore ton sourire.
+
+-16- j’aime tes yeux.
+
+-17- Je t’aime parce que t’es juste toi mon amour.
+</textarea>
+
+<p>oow merci mon amour,</p>
+
+
+<div id="banner">
+    salut mon amour ❤
+</div>
+
+<div id="footer">
+    heure : <span id="clock"></span>
+</div>
+
+<img src="chat4.gif" alt="Chat bas gauche" class="bottom-left-gif">
+<img src="plan1.png" alt="plan" class="image">
+<button id="playPauseBtn">▶ Play</button>
+<script>
+    const audio = document.getElementById("audio");
+    const button = document.getElementById("playPauseBtn");
+
+    button.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        button.textContent = "⏸ Pause";
+      } else {
+        audio.pause();
+        button.textContent = "▶ Play";
+      }
+    });
+     function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "✦";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = (16 + Math.random() * 50) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 200);
+// Fonction pour afficher/cacher le textarea
+function toggleTextarea() {
+    const textarea = document.getElementById('my-textarea');
+    if (textarea.style.display === 'none') {
+        textarea.style.display = 'block';
+    } else {
+        textarea.style.display = 'none';
+    }
+}
+
+//  déplacer la zone de texte avec la souris.
+const textarea = document.getElementById("my-textarea");
+let isDragging = false;
+let offsetX, offsetY;
+
+textarea.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    offsetX = e.clientX - textarea.offsetLeft;
+    offsetY = e.clientY - textarea.offsetTop;
+    textarea.style.cursor = "grabbing";
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+        textarea.style.left = e.clientX - offsetX + "px";
+        textarea.style.top = e.clientY - offsetY + "px";
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    isDragging = false;
+    textarea.style.cursor = "grab";
+});
+
+// Horloge
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
